@@ -8,7 +8,7 @@ async function main() {
     const { GME, MSFT, DIS, BNTX } = mockData;
     const stocks = [GME, MSFT, DIS, BNTX];
 
-    function getColor(stock) {
+    function getColor(stock) {        
         if(stock === "GME"){
             return 'rgba(61, 161, 61, 0.7)'
         }
@@ -22,6 +22,19 @@ async function main() {
             return 'rgba(166, 43, 158, 0.7)'
         }
     }
+
+    function highestStockPrice(stock)
+    {
+        let highest = 0;
+        stock.values.forEach(value => {
+            if(value.high > highest)
+            {
+                highest = value.high;
+            }
+        })
+
+        return highest;
+    }
     
 
     // Reversing the stock data
@@ -29,7 +42,7 @@ async function main() {
         stock.values.reverse();
     })
 
-    // Adding the chart
+    // Adding the time chart
     new Chart(timeChartCanvas.getContext('2d'), {
         type: 'line',
         data: {
@@ -42,9 +55,27 @@ async function main() {
             }))
         }
     });
-    
-    
 
+    // Add the highest chart
+    new Chart(highestPriceChartCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels:stocks.map(stock => stock.meta.symbol),
+            datasets: [{
+                label: 'Highest',
+                data: stocks.map(stock => highestStockPrice(stock)),
+                backgroundColor: [
+                    'rgba(61, 161, 61, 0.7)',
+                    'rgba(209, 4, 25, 0.7)',
+                    'rgba(18, 4, 209, 0.7)',
+                    'rgba(166, 43, 158, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',                   
+                ]
+            }]
+        }
+    });
 }
 
 main()
