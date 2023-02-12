@@ -24,6 +24,11 @@ async function main() {
     }
     
 
+    // Reversing the stock data
+    stocks.forEach(function(stock) {
+        stock.values.reverse();
+    })
+
     // Adding the chart
     new Chart(timeChartCanvas.getContext('2d'), {
         type: 'line',
