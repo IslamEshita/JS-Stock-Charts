@@ -35,6 +35,19 @@ async function main() {
 
         return highest;
     }
+
+
+    function averageStockPrice(stock)
+    {
+        let total = 0;
+        stock.values.forEach(value => {           
+                total = total + parseFloat(value.close);           
+        })
+
+
+
+        return total / stock.values.length;
+    }
     
 
     // Reversing the stock data
@@ -64,6 +77,28 @@ async function main() {
             datasets: [{
                 label: 'Highest',
                 data: stocks.map(stock => highestStockPrice(stock)),
+                backgroundColor: [
+                    'rgba(61, 161, 61, 0.7)',
+                    'rgba(209, 4, 25, 0.7)',
+                    'rgba(18, 4, 209, 0.7)',
+                    'rgba(166, 43, 158, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',                   
+                ]
+            }]
+        }
+    });
+
+
+    // Add the averange chart
+    new Chart(averagePriceChartCanvas.getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels:stocks.map(stock => stock.meta.symbol),
+            datasets: [{
+                label: 'Highest',
+                data: stocks.map(stock => averageStockPrice(stock)),
                 backgroundColor: [
                     'rgba(61, 161, 61, 0.7)',
                     'rgba(209, 4, 25, 0.7)',
